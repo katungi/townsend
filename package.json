@@ -1,0 +1,32 @@
+{
+  "name": "townsend",
+  "version": "1.0.0",
+  "description": "[![Board Status](https://dev.azure.com/dankatdennis/1897d72d-92c1-41f9-8c1e-1dee9eaca720/b6f03113-1fcb-4277-831f-07fafd2de635/_apis/work/boardbadge/c5936587-6c70-4f23-9774-534ff4796146)](https://dev.azure.com/dankatdennis/1897d72d-92c1-41f9-8c1e-1dee9eaca720/_boards/board/t/b6f03113-1fcb-4277-831f-07fafd2de635/Microsoft.RequirementCategory/) The Townsend directive",
+  "main": "babel.config.js",
+  "scripts": {
+    "dev:electron": "NODE_ENV=development webpack --config webpack.electron.config.js --mode development && electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katungi/townsend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katungi/townsend/issues"
+  },
+  "homepage": "https://github.com/katungi/townsend#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "electron": "^10.1.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
