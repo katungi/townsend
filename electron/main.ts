@@ -1,6 +1,7 @@
-import { app, BrowserWindow , Menu, MenuItem} from 'electron';
+import { app, BrowserWindow, Menu, MenuItem } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { MenuItemConstructorOptions } from 'electron/main';
 
 let mainWindow: Electron.BrowserWindow | null;
 
@@ -18,114 +19,73 @@ function createWindow() {
   } else {
     mainWindow.loadURL(
       url.format({
-          pathname: path.join(__dirname, '../index.html'),
-          protocol: 'file:',
-          slashes: true
+        pathname: path.join(__dirname, '../index.html'),
+        protocol: 'file:',
+        slashes: true
       })
     );
   }
-  const isMac = process.platform === 'darwin'
+  const isMac: boolean = process.platform === 'darwin'
+
   const template: Electron.MenuItemConstructorOptions[] | any = [
-    // { role: 'appMenu' }
-    ...(isMac ? [{
+    {
       label: app.name,
       submenu: [
-        { role: 'about' },
-        { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
-        { role: 'hide' },
-        { role: 'hideothers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit' }
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hide' },
+          { role: 'hideothers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' }
       ]
-    }] : []),
-    // { role: 'fileMenu' }
-    {
-      label: 'File',
-      submenu: [
-        isMac ? { role: 'close' } : { role: 'quit' }
-      ]
-    },
-    // { role: 'editMenu' }
+  },
     {
       label: 'Edit',
       submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        ...(isMac ? [
-          { role: 'pasteAndMatchStyle' },
-          { role: 'delete' },
-          { role: 'selectAll' },
+          { role: 'undo' },
+          { role: 'redo' },
           { type: 'separator' },
-          {
-            label: 'Speech',
-            submenu: [
-              { role: 'startspeaking' },
-              { role: 'stopspeaking' }
-            ]
-          }
-        ] : [
+          { role: 'cut' },
+          { role: 'copy' },
+          { role: 'paste' },
+          { role: 'pasteandmatchstyle' },
           { role: 'delete' },
-          { type: 'separator' },
-          { role: 'selectAll' }
-        ])
+          { role: 'selectall' }
       ]
-    },
-    // { role: 'viewMenu' }
-    {
+  },
+  {
       label: 'View',
       submenu: [
-        { role: 'reload' },
-        { role: 'forcereload' },
-        { role: 'toggledevtools' },
-        { type: 'separator' },
-        { role: 'resetzoom' },
-        { role: 'zoomin' },
-        { role: 'zoomout' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' }
-      ]
-    },
-    // { role: 'windowMenu' }
-    {
-      label: 'Window',
-      submenu: [
-        { role: 'minimize' },
-        { role: 'zoom' },
-        ...(isMac ? [
+          { role: 'reload' },
+          { role: 'forcereload' },
+          { role: 'toggledevtools' },
           { type: 'separator' },
-          { role: 'front' },
+          { role: 'resetzoom' },
+          { role: 'zoomin' },
+          { role: 'zoomout' },
           { type: 'separator' },
-          { role: 'window' }
-        ] : [
-          { role: 'close' }
-        ])
+          { role: 'togglefullscreen' }
       ]
-    },
-    {
+  },
+  { role: 'window', submenu: [{ role: 'minimize' }, { role: 'close' }] },
+  {
       role: 'help',
-      submenu: [
-        {
+      submenu: [{
           label: 'Learn More',
-          click: async () => {
-            const { shell } = require('electron')
-            await shell.openExternal('https://electronjs.org')
+          click() {
+              require('electron').shell.openExternal('https://electron.atom.io');
           }
-        }
-      ]
-    }
-  ]
-  
+      }]
+  }
+];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-   
-  
+
+
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
