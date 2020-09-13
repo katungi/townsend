@@ -7,4 +7,4 @@ Run
 ```npm run dev:react``` in one console,
 and
 
-```npm run dev: electron``` on another one
+```npm run dev:electron``` on another one
