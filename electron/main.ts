@@ -1,6 +1,7 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, MenuItem } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { MenuItemConstructorOptions } from 'electron/main';
 
 let mainWindow: Electron.BrowserWindow | null;
 
@@ -18,13 +19,73 @@ function createWindow() {
   } else {
     mainWindow.loadURL(
       url.format({
-          pathname: path.join(__dirname, '../index.html'),
-          protocol: 'file:',
-          slashes: true
+        pathname: path.join(__dirname, '../index.html'),
+        protocol: 'file:',
+        slashes: true
       })
     );
   }
-  
+  const isMac: boolean = process.platform === 'darwin'
+
+  const template: Electron.MenuItemConstructorOptions[] | any = [
+    {
+      label: app.name,
+      submenu: [
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hide' },
+          { role: 'hideothers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' }
+      ]
+  },
+    {
+      label: 'Edit',
+      submenu: [
+          { role: 'undo' },
+          { role: 'redo' },
+          { type: 'separator' },
+          { role: 'cut' },
+          { role: 'copy' },
+          { role: 'paste' },
+          { role: 'pasteandmatchstyle' },
+          { role: 'delete' },
+          { role: 'selectall' }
+      ]
+  },
+  {
+      label: 'View',
+      submenu: [
+          { role: 'reload' },
+          { role: 'forcereload' },
+          { role: 'toggledevtools' },
+          { type: 'separator' },
+          { role: 'resetzoom' },
+          { role: 'zoomin' },
+          { role: 'zoomout' },
+          { type: 'separator' },
+          { role: 'togglefullscreen' }
+      ]
+  },
+  { role: 'window', submenu: [{ role: 'minimize' }, { role: 'close' }] },
+  {
+      role: 'help',
+      submenu: [{
+          label: 'Learn More',
+          click() {
+              require('electron').shell.openExternal('https://electron.atom.io');
+          }
+      }]
+  }
+];
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+
+
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
