@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import window from './window';
+
 const mainElement = document.createElement('div');
 document.body.appendChild(mainElement);
-const App = () => {
+
+const App: React.FC = () => {
   return (
-    <h1>
-      Townsend, 
-      Next Gen Minimalist editor
-    </h1>
+   <Window/>
   )
 }
 ReactDom.render(<App />, mainElement);
