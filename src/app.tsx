@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import window from './window';
+import Home from './home';
 
 const mainElement = document.createElement('div');
 document.body.appendChild(mainElement);
 
-const App: React.FC = () => {
+const App = () => {
   return (
-   <Window/>
+   <Home/>
   )
 }
 ReactDom.render(<App />, mainElement);
