@@ -1,7 +1,7 @@
 import React from 'react'
+import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb } from 'antd';
 const { Header, Content, Footer } = Layout;
-
 
 function Home() {
   return (
@@ -26,8 +26,7 @@ function Home() {
       </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Made with 💝 by TownSend</Footer>
-      </Layout>,
-      mountNode,
+      </Layout>
         </div>
   )
 }
