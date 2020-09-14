@@ -1,32 +1,70 @@
 import React from 'react'
 import 'antd/dist/antd.css';
-import { Layout, Menu, Breadcrumb } from 'antd';
-const { Header, Content, Footer } = Layout;
+
+import { Layout, Menu } from 'antd';
+import {
+  AppstoreOutlined,
+  BarChartOutlined,
+  CloudOutlined,
+  ShopOutlined,
+  TeamOutlined,
+  UserOutlined,
+  UploadOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
+
+const { Header, Content, Footer, Sider } = Layout;
 
 function Home() {
   return (
     <div>
-      <Layout>
-        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
-        </Header>
-        <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
-            Content
-      </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Made with 💝 by TownSend</Footer>
-      </Layout>
+<Layout>
+    <Sider
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+      }}
+    >
+      <div className="logo" />
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+        <Menu.Item key="1" icon={<UserOutlined />}>
+          nav 1
+        </Menu.Item>
+        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+          nav 2
+        </Menu.Item>
+        <Menu.Item key="3" icon={<UploadOutlined />}>
+          nav 3
+        </Menu.Item>
+        <Menu.Item key="4" icon={<BarChartOutlined />}>
+          nav 4
+        </Menu.Item>
+        <Menu.Item key="5" icon={<CloudOutlined />}>
+          nav 5
+        </Menu.Item>
+        <Menu.Item key="6" icon={<AppstoreOutlined />}>
+          nav 6
+        </Menu.Item>
+        <Menu.Item key="7" icon={<TeamOutlined />}>
+          nav 7
+        </Menu.Item>
+        <Menu.Item key="8" icon={<ShopOutlined />}>
+          nav 8
+        </Menu.Item>
+      </Menu>
+    </Sider>
+    <Layout className="site-layout" style={{ marginLeft: 200 }}>
+      <Header className="site-layout-background" style={{ padding: 0 }} />
+      <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+        <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
+    
+        </div>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+    </Layout>
+  </Layout>,
         </div>
   )
 }
