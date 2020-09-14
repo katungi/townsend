@@ -1,6 +1,6 @@
 import React from 'react'
 import 'antd/dist/antd.css';
-
+import { Tree } from 'antd';
 import { Layout, Menu } from 'antd';
 import {
   AppstoreOutlined,
@@ -11,60 +11,71 @@ import {
   UserOutlined,
   UploadOutlined,
   VideoCameraOutlined,
+  FolderOpenOutlined,
+  FileOutlined
 } from '@ant-design/icons';
+import Editor from './editor'
 
 const { Header, Content, Footer, Sider } = Layout;
+const { DirectoryTree } = Tree;
+const treeData = [
+  {
+    title: 'parent 0',
+    icon: <FolderOpenOutlined />,
+    key: '0-0',
+    children: [
+      { title: 'leaf 0-0', key: '0-0-0', isLeaf: true, icon: <FileOutlined /> },
+      { title: 'leaf 0-1', key: '0-0-1', isLeaf: true, icon: <FileOutlined /> },
+    ],
+  },
+  {
+    title: 'parent 1',
+    icon: <FolderOpenOutlined />,
+    key: '0-1',
+    children: [
+      { title: 'leaf 1-0', key: '0-1-0', isLeaf: true, icon: <FileOutlined /> },
+      { title: 'leaf 1-1', key: '0-1-1', isLeaf: true, icon: <FileOutlined /> },
+    ],
+  },
+];
 
 function Home() {
+  const onSelect = (keys: any, event: any) => {
+    console.log('Trigger Select', keys, event);
+  };
+
+  const onExpand = () => {
+    console.log('Trigger Expand');
+  };
   return (
     <div>
-<Layout>
-    <Sider
-      style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-      }}
-    >
-      <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
-          nav 1
-        </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-          nav 2
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
-          nav 3
-        </Menu.Item>
-        <Menu.Item key="4" icon={<BarChartOutlined />}>
-          nav 4
-        </Menu.Item>
-        <Menu.Item key="5" icon={<CloudOutlined />}>
-          nav 5
-        </Menu.Item>
-        <Menu.Item key="6" icon={<AppstoreOutlined />}>
-          nav 6
-        </Menu.Item>
-        <Menu.Item key="7" icon={<TeamOutlined />}>
-          nav 7
-        </Menu.Item>
-        <Menu.Item key="8" icon={<ShopOutlined />}>
-          nav 8
-        </Menu.Item>
-      </Menu>
-    </Sider>
-    <Layout className="site-layout" style={{ marginLeft: 200 }}>
-      <Header className="site-layout-background" style={{ padding: 0 }} />
-      <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-        <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-    
-        </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-    </Layout>
-  </Layout>,
+      <Layout>
+        <Sider
+          theme="light"
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+          }}
+        >
+          <div className="logo" />
+          <Menu theme="light" mode="inline" defaultSelectedKeys={['4']}>
+            <DirectoryTree
+              multiple
+              defaultExpandAll
+              onSelect={onSelect}
+              onExpand={onExpand}
+              treeData={treeData}
+            />
+          </Menu>
+        </Sider>
+        <Layout className="site-layout" style={{ marginLeft: 200 }}>
+          <Content style={{ margin: '0px 0px 0'}}>       
+              <Editor/>
+          </Content>
+        </Layout>
+      </Layout>
         </div>
   )
 }
