@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as url from 'url';
 import { MenuItemConstructorOptions } from 'electron/main';
 
-let mainWindow: Electron.BrowserWindow | null;
+let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -25,20 +25,24 @@ function createWindow() {
       })
     );
   }
-  const isMac: boolean = process.platform === 'darwin'
+  const isMac = process.platform === 'darwin'
 
-  const template: Electron.MenuItemConstructorOptions[] | any = [
+  const template = [
     {
-      label: "File",
+      label: app.name,
       submenu: [
-        {
-          label: "Open Folder"
-        }, 
-        {
-          label: "Open File"
-        }
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hide' },
+          { role: 'hideothers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' }
       ]
-    },
+  },
     {
       label: 'Edit',
       submenu: [
@@ -76,22 +80,7 @@ function createWindow() {
               require('electron').shell.openExternal('https://electron.atom.io');
           }
       }]
-  },
-  {
-    label: app.name,
-    submenu: [
-        { role: 'about' },
-        { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
-        { role: 'hide' },
-        { role: 'hide' },
-        { role: 'hideothers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit' }
-    ]
-},
+  }
 ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
