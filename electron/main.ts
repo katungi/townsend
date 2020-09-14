@@ -5,7 +5,7 @@ import { MenuItemConstructorOptions } from 'electron/main';
 import fs from 'fs';
 
 
-let mainWindow: Electron.BrowserWindow | null;
+let mainWindow: Electron.BrowserWindow | null | any;
 
 function createWindow() {
   mainWindow= new BrowserWindow({
