@@ -17,6 +17,8 @@ import 'codemirror/addon/fold/brace-fold';
 import 'codemirror/addon/fold/comment-fold';
 import 'codemirror/addon/fold/foldgutter.css';
 
+import './editor.css'
+
 function CodeEditor() {
   const [code, setCode] = React.useState('// my code goes here');
 
