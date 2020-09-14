@@ -1,28 +1,51 @@
-import React from 'react'
-import {Controlled as CodeMirror} from 'react-codemirror2'
+import React from 'react';
+import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
-require('codemirror/mode/xml/xml');
-require('codemirror/mode/javascript/javascript');
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/javascript-hint';
+import 'codemirror/addon/hint/show-hint.css';
+import 'codemirror/addon/hint/anyword-hint';
+import 'codemirror/keymap/sublime';
+import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/edit/closetag';
+import 'codemirror/addon/edit/matchbrackets'
+import 'codemirror/addon/fold/foldcode';
+import 'codemirror/addon/fold/foldgutter';
+import 'codemirror/addon/fold/brace-fold';
+import 'codemirror/addon/fold/comment-fold';
+import 'codemirror/addon/fold/foldgutter.css';
 
-function editor() {
-    return (
-        <div>
-            <CodeMirror
-                options={{
-                    mode: 'javascript',
-                    theme: 'material',
-                    lineNumbers: true,
-                    smartIndent: true,
-                    lineWrapping: true,
-                    autofocus: true,
-                    autocorrect: true,
+function CodeEditor() {
+  const [code, setCode] = React.useState('// my code goes here');
 
-                }}
-            />
-        </div>
-    )
+  return (
+    <CodeMirror
+      value={code}
+      options={{
+        theme: 'material',
+        mode: 'javascript',
+        lineWrapping: true,
+        smartIndent: true,
+        lineNumbers: true,
+        foldGutter: true,
+        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+        autoCloseTags: true,
+        keyMap: 'sublime',
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        extraKeys: {
+          'Ctrl-Space': 'autocomplete'
+        }
+      }}
+      onBeforeChange={(editor, data, value) => {
+        setCode(value);
+      }}
+      onChange={(editor, data, value) => {}}
+    />
+  );
 }
 
-export default editor
+export default CodeEditor;
 
