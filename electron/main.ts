@@ -1,14 +1,15 @@
-import { app, BrowserWindow, dialog,Menu, MenuItem } from 'electron';
+import { app, BrowserWindow, dialog, Menu, MenuItem } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { MenuItemConstructorOptions } from 'electron/main';
 import fs from 'fs';
+import { monaco } from '@monaco-editor/react'
 
 
 let mainWindow: Electron.BrowserWindow | null | any;
 
 function createWindow() {
-  mainWindow= new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1000,
     height: 900,
     webPreferences: {
@@ -111,18 +112,24 @@ function createWindow() {
 app.on('ready', createWindow);
 app.allowRendererProcessReuse = true;
 
-function openFile(){
+function openFile() {
   // Opens file dialog and selects them
   const files = dialog.showOpenDialogSync(mainWindow, {
-    properties:['openFile'],
+    properties: ['openFile'],
     filters: [{
       name: "All Files", extensions: ['*']
     }]
   });
-  
+
   // IF there are no files
-  if(!files) return;
+  if (!files) return;
   const file = files[0];
-   const fileContent: string = fs.readFileSync(file).toString();
-   console.log(fileContent)
+  const fileContent: string = fs.readFileSync(file).toString();
+  console.log(fileContent)
 }
+
+monaco.config({
+  paths: {
+    vs: '../node_modules/monaco-editor/min/vs/editor'
+  }
+});
