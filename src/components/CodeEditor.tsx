@@ -1,23 +1,28 @@
-import React, { useState } from 'react'
-import Editor from "@monaco-editor/react";
-
-
+import React, { useState,useEffect } from 'react'
+import { Controlled, CodeMirror } from "react-codemirror2";
+const { ipcRenderer } = window.require('electron');
 
 const CodeEditor: React.FC<{}> = (_props) => {
-    const [theme, setTheme] = useState("dark");
-    const [language, setLanguage] = useState("javascript");
-    const [isEditorReady, setIsEditorReady] = useState(false);
 
-    function handleEditorDidMount() {
-        setIsEditorReady(true);
-    }
+    const [value, setValue] = useState('');
+   
+    const handleResponse = (_event: any, response: any) => {
+        setValue(response.value);
+      };
+
+      useEffect((): any => {
+        ipcRenderer.on('fileContent', handleResponse);
+        return () => ipcRenderer.off('fileContent', handleResponse);
+      }, []);
+    
     return (
-        <Editor
-            height="100vh"
-            theme={theme}
-            language={language}
-            value={language}
-            editorDidMount={handleEditorDidMount}
+        <CodeMirror
+            value={value}
+            options={{
+                mode: 'javascript',
+                theme: 'sublime',
+                lineNumners: true
+            }}
         />
     )
 }

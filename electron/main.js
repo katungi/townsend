@@ -85,7 +85,6 @@ function createWindow() {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   });

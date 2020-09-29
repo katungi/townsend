@@ -1,9 +1,10 @@
-import { app, BrowserWindow, dialog, Menu, MenuItem } from 'electron';
+import { app, BrowserWindow, dialog, Menu, MenuItem, ipcRenderer } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { MenuItemConstructorOptions } from 'electron/main';
 import fs from 'fs';
 import { monaco } from '@monaco-editor/react'
+import { ipcMain } from 'electron';
 
 
 let mainWindow: Electron.BrowserWindow | null | any;
@@ -42,7 +43,8 @@ function createWindow() {
           }
         },
         {
-          label: "Open File"
+          label: "Open File",
+          accelerator: "CmdOrCtrl+p",
         }
       ]
     },
@@ -123,13 +125,17 @@ function openFile() {
 
   // IF there are no files
   if (!files) return;
+  console.log(files);
   const file = files[0];
   const fileContent: string = fs.readFileSync(file).toString();
-  console.log(fileContent)
-}
+  console.log(fileContent);
 
-monaco.config({
-  paths: {
-    vs: '../node_modules/monaco-editor/min/vs/editor'
+  const sendCode = ()=> {
+    if(mainWindow) {
+      mainWindow.webContents.send('fileContent', {
+        message: fileContent
+      })
+    }
   }
-});
+
+}

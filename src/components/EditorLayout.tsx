@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tree, Layout, Menu } from 'antd';
+import FileTreeComponent from '../../utilities/Filetree';
 
 const { DirectoryTree } = Tree;
 const { Content, Sider } = Layout;
