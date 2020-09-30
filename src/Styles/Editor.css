@@ -1,6 +1,12 @@
-@import 'codemirror/lib/codemirror.css';
-@import 'codemirror/theme/material.css';
-
-.CodeMirror {
-    height: auto !important;
-}
+.cm-wrap {
+    border: 1px solid silver;
+  }
+  .cm-scroller {
+    overflow: scrol     
+  }
+  .react-codemirror2 {
+    height: 100%;
+  }
+  .CodeMirror {
+    height: 100% !important;
+  }

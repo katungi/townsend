@@ -56,7 +56,7 @@ const EditorLayout: React.FC<{}> = ({ children }) => {
                     <Content
                         style={{
                             margin: 0,
-                            minHeight: 280,
+                            minHeight: 800,
                         }}
                     >
                         {children}
