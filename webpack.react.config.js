@@ -16,12 +16,15 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            plugins: ['@babel/plugin-proposal-class-properties'],
+          },
         },
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
-      }
+      },
     ],
   },
   devServer: {
@@ -37,7 +40,5 @@ module.exports = {
     filename: 'js/[name].js',
     publicPath: './',
   },
-  plugins: [
-    new HtmlWebpackPlugin(),
-  ],
+  plugins: [new HtmlWebpackPlugin()],
 };
