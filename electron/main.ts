@@ -1,16 +1,11 @@
-import { app, BrowserWindow, dialog, Menu, MenuItem, ipcRenderer } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import * as path from 'path';
-import * as url from 'url';
-import { MenuItemConstructorOptions } from 'electron/main';
-import fs from 'fs';
-import { monaco } from '@monaco-editor/react'
-import { ipcMain } from 'electron';
-
-
-let mainWindow: Electron.BrowserWindow | null | any;
+import { MenuBar } from './modules/menu';
 
 function createWindow() {
-  mainWindow = new BrowserWindow({
+  const menuBar = new MenuBar();
+
+  const mainWindow = new BrowserWindow({
     width: 1000,
     height: 900,
     webPreferences: {
@@ -18,124 +13,36 @@ function createWindow() {
     },
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL(`http://localhost:4000`);
-  } else {
-    mainWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, '../index.html'),
-        protocol: 'file:',
-        slashes: true
-      })
-    );
-  }
-  const isMac: boolean = process.platform === 'darwin'
-
-  const template: Electron.MenuItemConstructorOptions[] | any = [
-    {
-      label: "File",
-      submenu: [
-        {
-          label: "Open Folder",
-          accelerator: "CmdOrCtrl+O",
-          click() {
-            openFile()
-          }
-        },
-        {
-          label: "Open File",
-          accelerator: "CmdOrCtrl+p",
-        }
-      ]
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'pasteandmatchstyle' },
-        { role: 'delete' },
-        { role: 'selectall' }
-      ]
-    },
-    {
-      label: 'View',
-      submenu: [
-        { role: 'reload' },
-        { role: 'forcereload' },
-        { role: 'toggledevtools' },
-        { type: 'separator' },
-        { role: 'resetzoom' },
-        { role: 'zoomin' },
-        { role: 'zoomout' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' }
-      ]
-    },
-    { role: 'window', submenu: [{ role: 'minimize' }, { role: 'close' }] },
-    {
-      role: 'help',
-      submenu: [{
-        label: 'Learn More',
-        click() {
-          require('electron').shell.openExternal('https://electron.atom.io');
-        }
-      }]
-    },
-    {
-      label: app.name,
-      submenu: [
-        { role: 'about' },
-        { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
-        { role: 'hide' },
-        { role: 'hide' },
-        { role: 'hideothers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit' }
-      ]
-    },
-  ];
+  const template = menuBar.getMenuItemTemplate(mainWindow);
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
+  const indexUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:4000'
+      : `file://${(path.join(__dirname), '../index.html')}`;
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  mainWindow.loadURL(indexUrl);
+
+  // Show devTools at launch: Good for debugging startup
+  mainWindow.webContents.openDevTools();
+
+  const isMac: boolean = process.platform === 'darwin';
+
+  //  Not sure if it is necessary : https://github.com/electron/electron-quick-start-typescript/issues/35#issuecomment-589916378
+  // mainWindow.on('closed', () => {
+  //   mainWindow = null;
+  // });
 }
 
 app.on('ready', createWindow);
 app.allowRendererProcessReuse = true;
 
-function openFile() {
-  // Opens file dialog and selects them
-  const files = dialog.showOpenDialogSync(mainWindow, {
-    properties: ['openFile'],
-    filters: [{
-      name: "All Files", extensions: ['*']
-    }]
-  });
-
-  // IF there are no files
-  if (!files) return;
-  console.log(files);
-  const file = files[0];
-  const fileContent: string = fs.readFileSync(file).toString();
-  console.log(fileContent);
-
-  const sendCode = ()=> {
-    if(mainWindow) {
-      mainWindow.webContents.send('fileContent', {
-        message: fileContent
-      })
-    }
+// Quit when all windows are closed, except on macOS: Where, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
   }
-
-}
+});
