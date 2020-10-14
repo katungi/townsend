@@ -3,7 +3,7 @@ import { FileService } from './file';
 
 // Handle menu ad related items here
 export class MenuBar {
-  public getMenuItemTemplate(browserWIndow: BrowserWindow): MenuItemConstructorOptions[] {
+  public getMenuItemTemplate(browserWindow: BrowserWindow): MenuItemConstructorOptions[] {
     const file = new FileService();
     const template: MenuItemConstructorOptions[] = [
       {
@@ -13,12 +13,15 @@ export class MenuBar {
             label: 'Open Folder',
             accelerator: 'CmdOrCtrl+O',
             click() {
-              file.openFile(browserWIndow);
+              file.openFolder(browserWindow);
             },
           },
           {
             label: 'Open File',
             accelerator: 'CmdOrCtrl+p',
+            click() {
+              file.openFile(browserWindow);
+            }
           },
         ],
       },
