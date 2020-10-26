@@ -25,3 +25,4 @@ const generateFileTreeObject = directoryString => {
         return Promise.all(fileDataPromises);
       });
   };
+  module.exports = generateFileTreeObject;

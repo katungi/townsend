@@ -1,10 +1,11 @@
 import { BrowserWindow, dialog } from 'electron';
 import { promises } from 'fs';
 const fs = require('fs');
+import generateFileTreeObject from './tree';
 
 // Handle file read/write related events here for the electron side.
 // Most of this should happen on the react side though
-export class FileService {
+export class getFiles {
   public openFile(browserWindow: BrowserWindow): void {
     // Opens file dialog and selects them
     const files = dialog.showOpenDialogSync(browserWindow, {
@@ -24,6 +25,7 @@ export class FileService {
     const fileContent: string = fs.readFileSync(directoryString).toString();
     console.log(fileContent);
 
+    // send the file contents to the editor
     const sendCode = () => {
       if (browserWindow) {
         browserWindow.webContents.send('fileContent', {
@@ -32,7 +34,9 @@ export class FileService {
       }
     };
   }
+}
 
+export class getFolder {
   public openFolder(browserWindow: BrowserWindow): void {
     const folders = dialog.showOpenDialogSync(browserWindow, {
       properties: ['openDirectory']
@@ -40,27 +44,6 @@ export class FileService {
 
     if (!folders) return;
     console.log(folders);
-    // const directoryString = folders[0];
-    const generateFileTreeObject = (directoryString = folders[0]) => {
-      return fs.readdirAsync(directoryString).then((arrayOfFileNameStrings: any[]) => {
-        const fileDataPromises = arrayOfFileNameStrings.map(fileNameString => {
-          const fullPath = `${directoryString}/${fileNameString}`;
-          return fs.statAsync(fullPath).then((fileData: { isFile: () => any; }) => {
-            const file: any = {};
-            file.filePath = fullPath;
-            file.isFileBoolean = fileData.isFile();
-
-            if (!file.isFileBoolean) {
-              return generateFileTreeObject(file.filePath).then((fileNamesSubArray: any) => {
-                file.files = fileNamesSubArray;
-              })
-              .catch(console.error);
-            }
-            return file;
-          });
-        });
-        return Promise.all(fileDataPromises);
-      });
-    };
+    generateFileTreeObject(folders);   
   }
 }
