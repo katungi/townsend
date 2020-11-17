@@ -33,11 +33,6 @@ function createWindow() {
     text: 'Starting ...'
   });
 
-  // mainWindow.once('ready-to-show', () => {
-  //   mainWindow.show();
-  //   hideSplashscreen();
-  // });
-
   mainWindow.webContents.on('did-finish-load', ()=>{
     mainWindow.show();
     hideSplashscreen();

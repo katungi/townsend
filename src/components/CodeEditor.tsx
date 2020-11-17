@@ -22,16 +22,14 @@ const { ipcRenderer } = window.require('electron');
 
 const CodeEditor: React.FC<{}> = (_props) => {
 
-    const [value, setValue] = useState('');
-
-    const handleResponse = (_event: any, response: any) => {
-        setValue(response.value);
-    };
+    let [value, setValue] = useState('');
 
     useEffect((): any => {
-        ipcRenderer.on('fileContent', handleResponse);
-        return () => ipcRenderer.off('fileContent', handleResponse);
-    }, []);
+       ipcRenderer.send('page-load', 'true');
+       ipcRenderer.on('fileData', (event, fileContent)=>{
+        setValue = fileContent;
+       });
+    }, [value]);
 
     return (
         <CodeMirror
