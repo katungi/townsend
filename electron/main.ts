@@ -1,6 +1,10 @@
 import { app, BrowserWindow, Menu } from 'electron';
+import { initSplashScreen, OfficeTemplate } from 'electron-splashscreen';
+import isDev from 'electron-is-dev';
+import { resolve } from 'app-root-path';
 import * as path from 'path';
 import { MenuBar } from './modules/menu';
+import hideSplashscreen from './modules/splashscreen';
 
 function createWindow() {
   const menuBar = new MenuBar();
@@ -10,7 +14,33 @@ function createWindow() {
     height: 900,
     webPreferences: {
       nodeIntegration: true,
+      devTools: false
     },
+    show: false
+  });
+
+
+  const hideSplashscreen = initSplashScreen({
+    mainWindow,
+    icon: isDev ? resolve('assets/icon.ico') : undefined,
+    url: OfficeTemplate,
+    width: 500,
+    height: 300,
+    brand: 'Ts Editor',
+    productName: 'Townsend',
+    logo: resolve('assets/logo.svg'),
+    website: 'www.townsendeditor.io',
+    text: 'Starting ...'
+  });
+
+  // mainWindow.once('ready-to-show', () => {
+  //   mainWindow.show();
+  //   hideSplashscreen();
+  // });
+
+  mainWindow.webContents.on('did-finish-load', ()=>{
+    mainWindow.show();
+    hideSplashscreen();
   });
 
   const template = menuBar.getMenuItemTemplate(mainWindow);
@@ -28,13 +58,7 @@ function createWindow() {
   mainWindow.webContents.openDevTools();
 
   const isMac: boolean = process.platform === 'darwin';
-
-  //  Not sure if it is necessary : https://github.com/electron/electron-quick-start-typescript/issues/35#issuecomment-589916378
-  // mainWindow.on('closed', () => {
-  //   mainWindow = null;
-  // });
 }
-
 app.on('ready', createWindow);
 app.allowRendererProcessReuse = true;
 
