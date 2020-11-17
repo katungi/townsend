@@ -1,7 +1,6 @@
 import { BrowserWindow, dialog, ipcMain } from 'electron';
 import { promises } from 'fs';
 const fs = require('fs');
-const { ipcRenderer } = require('electron');
 import generateFileTreeObject from './tree';
 
 // Handle file read/write related events here for the electron side.
@@ -24,11 +23,16 @@ export class getFiles {
     console.log(files);
     const directoryString = files[0];
     const fileContent: string = fs.readFileSync(directoryString).toString();
-    console.log(fileContent);
+    // console.log(fileContent);
 
     // send the file contents to the editor
-    ipcMain.on('page-load', (event, fileContent) => {
-      event.sender.send('fileData', fileContent);
+    ipcMain.on('page-load', (event, arg) => {
+      // console.log(fileContent);
+      if(arg == 'true'){
+        arg = fileContent;
+        console.log(arg);
+      }
+      event.sender.send('fileData', arg);
     });
   }
 }

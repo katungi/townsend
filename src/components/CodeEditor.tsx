@@ -22,40 +22,45 @@ const { ipcRenderer } = window.require('electron');
 
 const CodeEditor: React.FC<{}> = (_props) => {
 
-    let [value, setValue] = useState('');
+  const [value, setValue] = useState('');
 
-    useEffect((): any => {
-       ipcRenderer.send('page-load', 'true');
-       ipcRenderer.on('fileData', (event, fileContent)=>{
-        setValue = fileContent;
-       });
-    }, [value]);
+  useEffect((): any => {
+    console.log('hello');
+    ipcRenderer.send('page-load', 'true');
+  },[]);
 
-    return (
-        <CodeMirror
-        value={value}
-        options={{
-          theme: 'monokai',
-          mode: 'javascript',
-          lineWrapping: true,
-          smartIndent: true,
-          lineNumbers: true,
-          foldGutter: true,
-          gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-          autoCloseTags: true,
-          keyMap: 'sublime',
-          matchBrackets: true,
-          autoCloseBrackets: true,
-          extraKeys: {
-            'Ctrl-Space': 'autocomplete'
-          }
-        }}
-        onBeforeChange={(editor, data, value) => {
-          setValue(value);
-        }}
-        onChange={(editor, data, value) => {}}
-      />
-    )
+  useEffect(() => {
+    ipcRenderer.on('fileData', (event, fileContent) => {
+      console.log(fileContent);
+      setValue(fileContent);
+    });
+  }, [value]);
+
+  return (
+    <CodeMirror
+      value={value}
+      options={{
+        theme: 'monokai',
+        mode: 'javascript',
+        lineWrapping: true,
+        smartIndent: true,
+        lineNumbers: true,
+        foldGutter: true,
+        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+        autoCloseTags: true,
+        keyMap: 'sublime',
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        extraKeys: {
+          'Ctrl-Space': 'autocomplete'
+        }
+      }}
+      onBeforeChange={(editor, data, value) => {
+        setValue(value);
+      }}
+      onChange={(editor, data, value) => { }}
+    />
+  )
 }
 
 export default CodeEditor

@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu } from 'electron';
-import { initSplashScreen, OfficeTemplate } from 'electron-splashscreen';
+import { initSplashScreen, DolphinTemplate } from 'electron-splashscreen';
 import isDev from 'electron-is-dev';
 import { resolve } from 'app-root-path';
 import * as path from 'path';
@@ -14,7 +14,7 @@ function createWindow() {
     height: 900,
     webPreferences: {
       nodeIntegration: true,
-      devTools: false
+  
     },
     show: false
   });
@@ -23,7 +23,7 @@ function createWindow() {
   const hideSplashscreen = initSplashScreen({
     mainWindow,
     icon: isDev ? resolve('assets/icon.ico') : undefined,
-    url: OfficeTemplate,
+    url: DolphinTemplate,
     width: 500,
     height: 300,
     brand: 'Ts Editor',
