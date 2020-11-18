@@ -19,7 +19,6 @@ function createWindow() {
     show: false
   });
 
- 
   const hideSplashscreen = initSplashScreen({
     mainWindow,
     icon: isDev ? resolve('assets/icon.ico') : undefined,

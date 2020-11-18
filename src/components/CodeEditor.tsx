@@ -27,12 +27,13 @@ const CodeEditor: React.FC<{}> = (_props) => {
   useEffect((): any => {
     console.log('hello');
     ipcRenderer.send('page-load', 'true');
-  },[]);
+  });
 
+   
   useEffect(() => {
-    ipcRenderer.on('fileData', (event, fileContent) => {
-      console.log(fileContent);
-      setValue(fileContent);
+    ipcRenderer.on('fileData', (event, args) => {
+      console.log(args);
+      setValue(args);
     });
   }, [value]);
 
