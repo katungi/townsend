@@ -7,7 +7,7 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/addon/hint/anyword-hint';
+import 'codemirror/addon/hint/anyword-hint';  
 import 'codemirror/keymap/sublime';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/closetag';
@@ -23,11 +23,11 @@ const { ipcRenderer } = window.require('electron');
 const CodeEditor: React.FC<{}> = (_props) => {
 
   const [value, setValue] = useState('');
-
+  
   useEffect((): any => {
     console.log('hello');
-    ipcRenderer.send('page-load', 'true');
-  });
+    ipcRenderer.send('page-load', 'true')
+  },[]);
 
    
   useEffect(() => {
